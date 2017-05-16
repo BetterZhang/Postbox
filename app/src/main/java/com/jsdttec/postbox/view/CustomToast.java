@@ -29,7 +29,11 @@ public enum CustomToast {
     private ImageView mImageToast;
     private LinearLayout mLayoutToast;
 
-    public void showToast(Context ctx, String content, @DrawableRes int resId, boolean successFlag) {
+    public final static int NORMAL_STATE = 0;
+    public final static int SUCCESS_STATE = 1;
+    public final static int ERROR_STATE = 2;
+
+    public void showToast(Context ctx, String content, @DrawableRes int resId, int state) {
         if (mToast == null) {
             mToast = new Toast(ctx);
             mToast.setGravity(Gravity.CENTER, 0, 0);//设置toast显示的位置，这是居中
@@ -42,10 +46,12 @@ public enum CustomToast {
         }
         mTvToast.setText(content);//设置文本
         mImageToast.setBackgroundResource(resId);
-        if (successFlag)
+        if (state == SUCCESS_STATE)
             mLayoutToast.setBackgroundResource(R.drawable.custom_toast_success_bg);
-        else
+        else if (state == ERROR_STATE)
             mLayoutToast.setBackgroundResource(R.drawable.custom_toast_error_bg);
+        else if (state == NORMAL_STATE)
+            mLayoutToast.setBackgroundResource(R.drawable.custom_toast_normal_bg);
         mToast.show();//展示toast
     }
 
