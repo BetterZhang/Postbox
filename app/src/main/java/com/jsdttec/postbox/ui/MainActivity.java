@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
     // 生成二维码
     private void createQRCode() {
-        url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + DESUtil.encrypt(getRandomNumber().getBytes(), Constants.ENCODE).toString();
+        url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + new String(DESUtil.encrypt(getRandomNumber().getBytes(), Constants.ENCODE));
         Log.e("URL", url);
 
         Bitmap bitmap = QRCode.createQRCodeWithLogo(url, 500,
