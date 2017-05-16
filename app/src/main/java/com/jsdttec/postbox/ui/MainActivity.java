@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + DESUtil.encrypt(getRandomNumber().getBytes(), Constants.ENCODE).toString();
         Log.e("URL", url);
 
-        Bitmap bitmap = QRCode.createQRCodeWithLogo("url", 500,
+        Bitmap bitmap = QRCode.createQRCodeWithLogo(url, 500,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
         imageView.setImageBitmap(bitmap);
     }
