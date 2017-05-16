@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <!--<com.jsdttec.qrcodedemo.view.PasswordView-->
+        <!--android:id="@+id/edit_text"-->
+        <!--android:layout_below="@id/iv_qrcode"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:layout_marginTop="10dp"/>-->
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_below="@id/iv_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="请输入开箱提取码"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"/>
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/edit_text"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="6"
+        android:layout_below="@id/tv_hint"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:visibility="visible"
+        app:pinLineStroke="2dp"
+        app:pinLineStrokeSelected="4dp"
+        app:pinAnimationType="fromBottom"
+        app:pinBackgroundDrawable="@drawable/bg_pin"/>
+
+    <com.xnumberkeyboard.android.XNumberKeyboardView
+        android:id="@+id/view_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#b0b0b0"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/selector_key_background"
+        android:keyTextColor="#000000"
+        android:shadowColor="@android:color/transparent"
+        android:shadowRadius="0"
+        app:xnkv_deleteBackgroundColor="#d2d2d2"
+        app:xnkv_deleteDrawable="@mipmap/keyboard_backspace"
+        app:xnkv_deleteWidth="22dp" />
+
+</RelativeLayout>
