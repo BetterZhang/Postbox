@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
         // 第三种方式(中间带logo)
         Bitmap bitmap = QRCode.createQRCodeWithLogo("http://www.jsdttec.com", 500,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+                BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
         imageView.setImageBitmap(bitmap);
     }
 
