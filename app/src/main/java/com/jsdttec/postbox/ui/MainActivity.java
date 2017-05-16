@@ -11,6 +11,14 @@ import com.jsdttec.postbox.util.QRCode;
 import com.jsdttec.postbox.view.CustomToast;
 import com.xnumberkeyboard.android.XNumberKeyboardView;
 
+/**
+ * Created by Android Studio.
+ * Author : zhangzhongqiang
+ * Email  : zhangzhongqiang@jsdttec.com
+ * Time   : 2017/05/16 下午 4:35
+ * Desc   : MainActivity
+ */
+
 public class MainActivity extends AppCompatActivity implements XNumberKeyboardView.IOnKeyboardListener {
 
     PinEntryEditText editText;

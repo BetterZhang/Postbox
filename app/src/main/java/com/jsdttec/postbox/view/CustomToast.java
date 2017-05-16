@@ -17,7 +17,7 @@ import com.jsdttec.postbox.R;
  * Author : zhangzhongqiang
  * Email  : zhangzhongqiang@jsdttec.com
  * Time   : 2017/05/16 下午 1:51
- * Desc   : description
+ * Desc   : 自定义Toast样式
  */
 
 public enum CustomToast {

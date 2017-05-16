@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
     <!--<com.jsdttec.qrcodedemo.view.PasswordView-->
         <!--android:id="@+id/edit_text"-->
@@ -26,7 +26,7 @@
         android:layout_below="@id/iv_qrcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:gravity="center"
         android:text="请输入开箱提取码"
         android:textSize="20sp"
@@ -44,11 +44,12 @@
         android:layout_below="@id/tv_hint"
         android:textIsSelectable="false"
         android:textSize="20sp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:visibility="visible"
         app:pinLineStroke="2dp"
+        app:pinCharacterSpacing="10dp"
         app:pinLineStrokeSelected="4dp"
         app:pinAnimationType="fromBottom"
         app:pinBackgroundDrawable="@drawable/bg_pin"/>
