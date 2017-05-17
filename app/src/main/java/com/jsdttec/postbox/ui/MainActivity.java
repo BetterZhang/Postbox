@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
     String url;
     String randomStr;
 
+    Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
             e.printStackTrace();
         }
 
-        Bitmap bitmap = QRCode.createQRCodeWithLogo(url, 500,
+        bitmap = QRCode.createQRCodeWithLogo(url, 500,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
         imageView.setImageBitmap(bitmap);
     }

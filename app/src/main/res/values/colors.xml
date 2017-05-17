@@ -6,7 +6,7 @@
 
     <color name="gray">#D2D2D2</color>
     <color name="white">#FFFFFF</color>
-    <color name="bg_error">#D92727</color>
+    <color name="bg_error">#D81E06</color>
     <color name="bg_success">#62A465</color>
     <color name="bg_normal">#5060BA</color>
 </resources>

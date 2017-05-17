@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:text="请输入开箱提取码"
+        android:text="请输入6位开箱提取码"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"/>
 
