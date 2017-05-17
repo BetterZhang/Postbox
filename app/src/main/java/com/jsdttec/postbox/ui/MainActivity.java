@@ -2,6 +2,8 @@ package com.jsdttec.postbox.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +17,7 @@ import com.jsdttec.postbox.util.DESUtil;
 import com.jsdttec.postbox.util.QRCode;
 import com.jsdttec.postbox.view.CustomToast;
 import com.xnumberkeyboard.android.XNumberKeyboardView;
+import java.util.HashMap;
 
 /**
  * Created by Android Studio.
@@ -25,6 +28,13 @@ import com.xnumberkeyboard.android.XNumberKeyboardView;
  */
 
 public class MainActivity extends AppCompatActivity implements XNumberKeyboardView.IOnKeyboardListener {
+
+    public static final int KEY_SOUND_OPEN = 1;
+    public static final int KEY_SOUND_ERROR = 2;
+    public static final int KEY_SOUND_CLOSE = 3;
+
+    SoundPool mSoundPool;
+    private HashMap<Integer, Integer> soundPoolMap;
 
     PinEntryEditText editText;
     ImageView imageView;
@@ -44,6 +54,13 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         imageView = (ImageView) findViewById(R.id.iv_qrcode);
         keyboardView = (XNumberKeyboardView) findViewById(R.id.view_keyboard);
         keyboardView.setIOnKeyboardListener(this);
+
+        mSoundPool = new SoundPool(10, AudioManager.STREAM_ALARM, 0);
+
+        soundPoolMap = new HashMap<Integer, Integer>();
+        soundPoolMap.put(KEY_SOUND_OPEN, mSoundPool.load(this, R.raw.open, 1));
+        soundPoolMap.put(KEY_SOUND_ERROR, mSoundPool.load(this, R.raw.error, 1));
+        soundPoolMap.put(KEY_SOUND_CLOSE, mSoundPool.load(this, R.raw.close, 1));
 
 //        //第一种方式
 //        Bitmap bitmap = QRCodeUtil.createQRCodeBitmap("https://www.baidu.com", 500, 500);
@@ -102,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 //                        .show();
 //                Toasty.success(MainActivity.this, "开箱成功", Toast.LENGTH_SHORT, true).show();
                 CustomToast.INSTANCE.showToast(MainActivity.this, "开箱成功，请取走物品", R.mipmap.ic_box_open, CustomToast.SUCCESS_STATE);
+                mSoundPool.play(soundPoolMap.get(KEY_SOUND_OPEN), 1, 1, 0, 0, 1);
             } else {
                 editText.setText("");
 //                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -110,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 //                        .show();
 //                Toasty.error(MainActivity.this, "提取码输入错误", Toast.LENGTH_SHORT, true).show();
                 CustomToast.INSTANCE.showToast(MainActivity.this, "提取码输入错误", R.mipmap.ic_error, CustomToast.ERROR_STATE);
+                mSoundPool.play(soundPoolMap.get(KEY_SOUND_ERROR), 1, 1, 0, 0, 1);
             }
         }
     }
@@ -151,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
             case R.id.lock:
                 createQRCode();
                 CustomToast.INSTANCE.showToast(MainActivity.this, "箱子已关闭，二维码更新", R.mipmap.ic_box_close, CustomToast.NORMAL_STATE);
+                mSoundPool.play(soundPoolMap.get(KEY_SOUND_CLOSE), 1, 1, 0, 0, 1);
                 break;
             default:
                 break;
