@@ -4,6 +4,7 @@
     android:id="@+id/layout_toast"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:minWidth="200dp"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="20dp">
