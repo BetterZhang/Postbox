@@ -15,7 +15,7 @@ public final class Constants {
     }
 
     public static final int BOX_ID = 10001;
-    public static final String URL = "http://www.baidu.com/secret/decode";
+    public static final String URL = "http://wangyong.developer.jsdttec.com/secret/decode";
     public static final String ENCODE = "zhangzhongqiang";
 
 }
