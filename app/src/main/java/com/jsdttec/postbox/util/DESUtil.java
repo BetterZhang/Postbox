@@ -1,5 +1,6 @@
 package com.jsdttec.postbox.util;
 
+import org.apaches.commons.codec.binary.Base64;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -50,7 +51,7 @@ public class DESUtil {
             // 为了防止解密时报javax.crypto.IllegalBlockSizeException: Input length must be multiple of 8 when decrypting with padded cipher异常，
             // 不能把加密后的字节数组直接转换成字符串
             byte[] buf = cipher.doFinal(plainData.getBytes());
-            return Base64Utils.encode(buf);
+            return Base64.encodeBase64String(buf);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
             throw new Exception("IllegalBlockSizeException", e);
@@ -87,7 +88,7 @@ public class DESUtil {
         }
 
         try {
-            byte[] buf = cipher.doFinal(Base64Utils.decode(secretData.toCharArray()));
+            byte[] buf = cipher.doFinal(Base64.decodeBase64(secretData));
             return new String(buf);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
