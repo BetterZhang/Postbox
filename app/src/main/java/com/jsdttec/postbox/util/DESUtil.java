@@ -51,7 +51,8 @@ public class DESUtil {
             // 为了防止解密时报javax.crypto.IllegalBlockSizeException: Input length must be multiple of 8 when decrypting with padded cipher异常，
             // 不能把加密后的字节数组直接转换成字符串
             byte[] buf = cipher.doFinal(plainData.getBytes());
-            return Base64.encodeBase64String(buf);
+//            return Base64.encodeBase64String(buf);
+            return Strings.parse16(buf);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
             throw new Exception("IllegalBlockSizeException", e);
