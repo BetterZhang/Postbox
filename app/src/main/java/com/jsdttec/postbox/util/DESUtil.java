@@ -1,6 +1,5 @@
 package com.jsdttec.postbox.util;
 
-import org.apaches.commons.codec.binary.Base64;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -89,7 +88,8 @@ public class DESUtil {
         }
 
         try {
-            byte[] buf = cipher.doFinal(Base64.decodeBase64(secretData));
+            byte[] buf = cipher.doFinal(ByteUtils.parse16(secretData));
+//            return new String(ByteUtils.parse16(new String(buf)));
             return new String(buf);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
