@@ -21,6 +21,13 @@
         <!--android:layout_height="56dp"-->
         <!--android:layout_marginTop="10dp"/>-->
 
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"/>
+
     <TextView
         android:id="@+id/tv_hint"
         android:layout_below="@id/iv_qrcode"

@@ -33,11 +33,15 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
     public static final int KEY_SOUND_ERROR = 2;
     public static final int KEY_SOUND_CLOSE = 3;
 
+    // 记录密码输入错误的次数
+    private int error_count = 0;
+
     SoundPool mSoundPool;
     private HashMap<Integer, Integer> soundPoolMap;
 
     PinEntryEditText editText;
     ImageView imageView;
+    ImageView iv_state;
     XNumberKeyboardView keyboardView;
 
     String str;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         setContentView(R.layout.activity_main);
         editText = (PinEntryEditText) findViewById(R.id.edit_text);
         imageView = (ImageView) findViewById(R.id.iv_qrcode);
+        iv_state = (ImageView) findViewById(R.id.iv_state);
         keyboardView = (XNumberKeyboardView) findViewById(R.id.view_keyboard);
         keyboardView.setIOnKeyboardListener(this);
 
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 //        Bitmap bitmap = QRCode.createQRCodeWithLogo("http://www.jsdttec.com", 500,
 //                BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
 //        imageView.setImageBitmap(bitmap);
+        iv_state.setBackgroundResource(R.mipmap.ic_close);
         createQRCode();
     }
 
@@ -112,7 +118,9 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         str = editText.getText().toString();
         if (str.length() == 6) {
             if (str.equals(randomStr)) {
+                error_count = 0;
                 editText.setText("");
+                iv_state.setBackgroundResource(R.mipmap.ic_open);
 //                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE)
 //                        .setTitleText("")
 //                        .setContentText("开箱成功")
@@ -121,13 +129,20 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
                 CustomToast.INSTANCE.showToast(MainActivity.this, "开箱成功，请取走物品", R.mipmap.ic_box_open, CustomToast.SUCCESS_STATE);
                 mSoundPool.play(soundPoolMap.get(KEY_SOUND_OPEN), 1, 1, 0, 0, 1);
             } else {
+                error_count++;
                 editText.setText("");
 //                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
 //                        .setTitleText("")
 //                        .setContentText("提取码输入错误")
 //                        .show();
 //                Toasty.error(MainActivity.this, "提取码输入错误", Toast.LENGTH_SHORT, true).show();
-                CustomToast.INSTANCE.showToast(MainActivity.this, "提取码输入错误", R.mipmap.ic_error, CustomToast.ERROR_STATE);
+                if (error_count == 3) {
+                    error_count = 0;
+                    createQRCode();
+                    CustomToast.INSTANCE.showToast(MainActivity.this, "提取码输入错误三次，二维码更新，请重新扫描二维码", R.mipmap.ic_error, CustomToast.ERROR_STATE);
+                } else {
+                    CustomToast.INSTANCE.showToast(MainActivity.this, "提取码输入错误", R.mipmap.ic_error, CustomToast.ERROR_STATE);
+                }
                 mSoundPool.play(soundPoolMap.get(KEY_SOUND_ERROR), 1, 1, 0, 0, 1);
             }
         }
@@ -169,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         switch (item.getItemId()) {
             case R.id.lock:
                 createQRCode();
+                iv_state.setBackgroundResource(R.mipmap.ic_close);
                 CustomToast.INSTANCE.showToast(MainActivity.this, "箱子已关闭，二维码更新", R.mipmap.ic_box_close, CustomToast.NORMAL_STATE);
                 mSoundPool.play(soundPoolMap.get(KEY_SOUND_CLOSE), 1, 1, 0, 0, 1);
                 break;
