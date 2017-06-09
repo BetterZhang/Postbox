@@ -13,11 +13,13 @@ import android.widget.ImageView;
 import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.jsdttec.postbox.Constants;
 import com.jsdttec.postbox.R;
-import com.jsdttec.postbox.util.DESUtil;
+import com.jsdttec.postbox.util.AESCoder;
+import com.jsdttec.postbox.util.HexUtil;
 import com.jsdttec.postbox.util.QRCode;
 import com.jsdttec.postbox.view.CustomToast;
 import com.xnumberkeyboard.android.XNumberKeyboardView;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by Android Studio.
@@ -88,19 +90,25 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
     // 生成二维码
     private void createQRCode() {
-        try {
-            url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + DESUtil.encrypt(getRandomNumber(), Constants.ENCODE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String encodedStr = null;
+        byte[] key = HexUtil.hexToBytes(Constants.ENCODE);
+
+        String str = getRandomNumber();
+
+        Log.e("Source", str);
+
+        byte[] value = str.getBytes();
+        byte[] encoded = AESCoder.ecbEnc(value, key);
+        encodedStr = HexUtil.bytesToHex(encoded);
+
+        url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + encodedStr;
+
         Log.e("URL", url);
-        try {
-            Log.e("URL", url.substring(url.indexOf("&mkey=") + 6));
-            Log.e("URL", "解密后：" + DESUtil.decrypt(url.substring(url.indexOf("&mkey=") + 6),
-                    Constants.ENCODE));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        byte[] t = AESCoder.ecbDec(HexUtil.hexToBytes(encodedStr), key);
+
+        Log.e("URL", encodedStr);
+        Log.e("URL", "解密后：" + new String(t));
 
         bitmap = QRCode.createQRCodeWithLogo(url, 500,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
@@ -108,8 +116,16 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
     }
 
     private String getRandomNumber() {
-        randomStr = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+//        randomStr = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+
+        randomStr = String.valueOf(getRandomValue(10000000, 100000000));
+        randomStr += String.valueOf(getRandomValue(10000000, 100000000));
         return randomStr;
+    }
+
+    private int getRandomValue(int minvalue, int maxvalue) {
+        Random random = new Random();
+        return random.nextInt(maxvalue - minvalue) + minvalue;
     }
 
     @Override
@@ -117,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         editText.append(text);
         str = editText.getText().toString();
         if (str.length() == 6) {
-            if (str.equals(randomStr)) {
+            if (str.equals(randomStr.substring(0, 6))) {
                 error_count = 0;
                 editText.setText("");
                 iv_state.setBackgroundResource(R.mipmap.ic_open);

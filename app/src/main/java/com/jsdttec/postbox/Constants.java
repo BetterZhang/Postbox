@@ -14,9 +14,9 @@ public final class Constants {
 
     }
 
-    public static final int BOX_ID = 10001;
+    public static final int BOX_ID = 10002;
 //    public static final String URL = "http://wangyong.developer.jsdttec.com/secret/decode";
     public static final String URL = "https://weipan3.jsdttec.com/secret/decode";
-    public static final String ENCODE = "zhangzhongqiang";
+    public static final String ENCODE = "32B043A0D66210377B2CA2A0B10DB974";
 
 }
