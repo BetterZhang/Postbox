@@ -31,6 +31,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements XNumberKeyboardView.IOnKeyboardListener {
 
+    public static final String TAG = "MainActivity";
+
     public static final int KEY_SOUND_OPEN = 1;
     public static final int KEY_SOUND_ERROR = 2;
     public static final int KEY_SOUND_CLOSE = 3;
@@ -95,20 +97,21 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
         String str = getRandomNumber();
 
-        Log.e("Source", str);
+        Log.e(TAG, "生成的16位数字: " + str);
 
         byte[] value = str.getBytes();
         byte[] encoded = AESCoder.ecbEnc(value, key);
         encodedStr = HexUtil.bytesToHex(encoded);
 
+        Log.e(TAG, "加密后: " + encodedStr);
+
         url = Constants.URL + "?boxId=" + Constants.BOX_ID + "&mkey=" + encodedStr;
 
-        Log.e("URL", url);
+        Log.e(TAG, "组装的URL: " + url);
 
         byte[] t = AESCoder.ecbDec(HexUtil.hexToBytes(encodedStr), key);
 
-        Log.e("URL", encodedStr);
-        Log.e("URL", "解密后：" + new String(t));
+        Log.e(TAG, "解密后: " + new String(t));
 
         bitmap = QRCode.createQRCodeWithLogo(url, 500,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
