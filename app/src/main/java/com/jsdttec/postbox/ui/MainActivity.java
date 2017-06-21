@@ -16,6 +16,7 @@ import com.jsdttec.postbox.R;
 import com.jsdttec.postbox.util.AESCoder;
 import com.jsdttec.postbox.util.HexUtil;
 import com.jsdttec.postbox.util.QRCode;
+import com.jsdttec.postbox.util.Strings;
 import com.jsdttec.postbox.view.CustomToast;
 import com.xnumberkeyboard.android.XNumberKeyboardView;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
     String str;
     String url;
-    String randomStr;
+    String randomStr = "";
 
     Bitmap bitmap;
 
@@ -95,11 +96,10 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         String encodedStr = null;
         byte[] key = HexUtil.hexToBytes(Constants.ENCODE);
 
-        String str = getRandomNumber();
+        byte[] value = getRandomNumber();
 
-        Log.e(TAG, "生成的16位数字: " + str);
+        Log.e(TAG, "生成的16位数字: " + Strings.parse16(value));
 
-        byte[] value = str.getBytes();
         byte[] encoded = AESCoder.ecbEnc(value, key);
         encodedStr = HexUtil.bytesToHex(encoded);
 
@@ -111,19 +111,31 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
 
         byte[] t = AESCoder.ecbDec(HexUtil.hexToBytes(encodedStr), key);
 
-        Log.e(TAG, "解密后: " + new String(t));
+        String str = Strings.parse16(t);
+        randomStr = "";
+        for (int i = 1; i < 12; ) {
+            randomStr += str.charAt(i);
+            i = i + 2;
+        }
+
+        Log.e(TAG, "解密后: " + Strings.parse16(t));
+        Log.e(TAG, "截取后: " + randomStr);
 
         bitmap = QRCode.createQRCodeWithLogo(url, 500,
                 BitmapFactory.decodeResource(getResources(), R.mipmap.icon));
         imageView.setImageBitmap(bitmap);
     }
 
-    private String getRandomNumber() {
+    private byte[] getRandomNumber() {
 //        randomStr = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
-
-        randomStr = String.valueOf(getRandomValue(10000000, 100000000));
-        randomStr += String.valueOf(getRandomValue(10000000, 100000000));
-        return randomStr;
+//        randomStr = Strings.parse(getRandomValue(10000000, 100000000));
+//        randomStr += String.valueOf(getRandomValue(10000000, 100000000));
+//        return randomStr;
+        byte[] result = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            result[i] = (byte)getRandomValue(0, 10);
+        }
+        return result;
     }
 
     private int getRandomValue(int minvalue, int maxvalue) {
@@ -136,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements XNumberKeyboardVi
         editText.append(text);
         str = editText.getText().toString();
         if (str.length() == 6) {
-            if (str.equals(randomStr.substring(0, 6))) {
+            if (str.equals(randomStr)) {
                 error_count = 0;
                 editText.setText("");
                 iv_state.setBackgroundResource(R.mipmap.ic_open);
